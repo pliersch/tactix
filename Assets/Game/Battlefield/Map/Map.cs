@@ -1,21 +1,21 @@
-﻿using System;
+﻿using Game.Battlefield.util;
+using Game.Units;
 using System.Collections.Generic;
-using level.battlefield.util;
-using level.gameObjects;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-namespace level.battlefield {
+namespace Game.Battlefield {
 
-	public class Battlefield : MonoBehaviour, IBattlefieldViewController {
+	public class Map : MonoBehaviour, IBattlefieldViewController {
 
-		public BattlefieldModel _model;
-		public BattlefieldView _view;
+		public MapModel _model;
+		public MapView _view;
 		public PrefabFactory _factory;
 		public LevelChecker _levelChecker;
 		public Button _nextTurnButton;
 		public Button _exitButton;
+		public Button _nextUnitButton;
 		public int _rows;
 		public int _columns;
 		private Army _myArmy;
@@ -27,10 +27,12 @@ namespace level.battlefield {
 		// TODO: move LevelChecker and all of generation/initializing to a factory. Don´t want see here
 		// TODO: better Use Unity Editor scripts and check it before compile (no code in final game)
 		private void Start() {
+			Debug.Log("foo");
 			float tileSize = _levelChecker.CheckTileSize(_factory.tile);
 			Field[,] fields = _model.GenerateFields(_rows, _columns, tileSize, transform.position);
-			_nextTurnButton.onClick.AddListener(HandleNextTurn);
-			_exitButton.onClick.AddListener(HandleExit);
+			_nextTurnButton.onClick.AddListener(OnNextTurn);
+			_exitButton.onClick.AddListener(OnExit);
+			_nextUnitButton.onClick.AddListener(OnNextUnit);
 			_levelChecker.FindOccupiedFields(fields, _factory);
 			_view.SetController(this);
 			AddUnits();
@@ -88,19 +90,22 @@ namespace level.battlefield {
 			// good for debug
 			//_view.ShowReachableFields(way);
 			// TODO re-enable if KI exists... OR NOT?
-//			_myArmy.MoveActiveUnit(way);
+			//			_myArmy.MoveActiveUnit(way);
 			_offenerArmy.MoveActiveUnit(way);
 		}
 
-		public void HandleNextTurn() {
+		public void OnNextTurn() {
 			_view.DestroyReachableFields();
 			_offenerArmy.ResetActionPoints();
-//			DisableArmy(_offenerArmy);
+			//			DisableArmy(_offenerArmy);
 			EnableNextArmy();
-		}		
-		
-		public void HandleExit() {
+		}
+
+		public void OnExit() {
 			SceneManager.LoadScene("Main Menu");
+		}
+		public void OnNextUnit() {
+			Debug.Log("Next");
 		}
 
 		private void EnableNextArmy() {

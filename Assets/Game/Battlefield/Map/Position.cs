@@ -1,4 +1,4 @@
-﻿namespace level.battlefield {
+﻿namespace Game.Battlefield {
 
 	public struct Position {
 
@@ -8,7 +8,7 @@
 		public Position(int x, int z) {
 			this.x = x;
 			this.z = z;
-			
+
 		}
 
 		public override string ToString() {

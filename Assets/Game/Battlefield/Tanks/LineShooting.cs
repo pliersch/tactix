@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Tanks {
+namespace Game.Battlefield.Tanks {
 
 	public class LineShooting : MonoBehaviour {
 

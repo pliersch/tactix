@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace level.battlefield.util {
+namespace Game.Battlefield.util {
 
 	public class LevelChecker : MonoBehaviour {
 

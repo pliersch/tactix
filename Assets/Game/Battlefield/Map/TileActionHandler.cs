@@ -1,4 +1,5 @@
-﻿namespace level.battlefield {
+﻿
+namespace Game.Battlefield {
 
 	public interface ITileActionHandler {
 

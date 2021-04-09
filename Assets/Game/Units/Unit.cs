@@ -1,9 +1,8 @@
-﻿using System;
-using level.battlefield;
-using Tanks;
+﻿using Game.Battlefield;
+using Game.Battlefield.Tanks;
 using UnityEngine;
 
-namespace level.gameObjects {
+namespace Game.Units {
 
 	public abstract class Unit {
 
@@ -17,7 +16,8 @@ namespace level.gameObjects {
 		protected int _remainingActionPoints;
 		internal int Damage;
 
-		public Army Army {
+		public Army Army
+		{
 			get { return _army; }
 		}
 
@@ -67,8 +67,8 @@ namespace level.gameObjects {
 			}
 			_remainingActionPoints--;
 			_go.transform.LookAt(target);
-      TankShooting tankShooting = _go.GetComponent<TankShooting>();
-      LineShooting shooting = _go.GetComponentInChildren<LineShooting>();
+			TankShooting tankShooting = _go.GetComponent<TankShooting>();
+			LineShooting shooting = _go.GetComponentInChildren<LineShooting>();
 			Vector3 offset = target - _go.transform.position;
 			float distance = Mathf.Sqrt(offset.x * offset.x + offset.z * offset.z);
 			shooting.Shoot(distance);
@@ -77,7 +77,7 @@ namespace level.gameObjects {
 
 		internal void DecreaseHealth(int damage) {
 			Health -= damage;
-			if(Health <= 0) {
+			if (Health <= 0) {
 				_army.HandleDeath(this);
 				_go.GetComponent<TankHealth>().OnDeath();
 			}
@@ -85,23 +85,23 @@ namespace level.gameObjects {
 		}
 
 		public void Highlight() {
-//			MeshRenderer[] renderers = _go.GetComponentsInChildren<MeshRenderer>();
-//			foreach (MeshRenderer renderer in renderers) {
-//				//t.material.color = Color.blue;
-//				Color color = renderer.material.color;
-//				color.a = 0.8f;
-//				renderer.material.color = color;
-//			}
+			//			MeshRenderer[] renderers = _go.GetComponentsInChildren<MeshRenderer>();
+			//			foreach (MeshRenderer renderer in renderers) {
+			//				//t.material.color = Color.blue;
+			//				Color color = renderer.material.color;
+			//				color.a = 0.8f;
+			//				renderer.material.color = color;
+			//			}
 		}
 
 		public void UnHighlight() {
-//			MeshRenderer[] renderers = _go.GetComponentsInChildren<MeshRenderer>();
-//			foreach (MeshRenderer renderer in renderers) {
-//				//t.material.color = Color.blue;
-//				Color color = renderer.material.color;
-//				color.b = 1;
-//				renderer.material.color = color;
-//			}
+			//			MeshRenderer[] renderers = _go.GetComponentsInChildren<MeshRenderer>();
+			//			foreach (MeshRenderer renderer in renderers) {
+			//				//t.material.color = Color.blue;
+			//				Color color = renderer.material.color;
+			//				color.b = 1;
+			//				renderer.material.color = color;
+			//			}
 		}
 
 	}

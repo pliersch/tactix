@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using level.battlefield.util;
-using level.gameObjects;
+using Game.Battlefield.util;
+using Game.Units;
 using UnityEngine;
 
-namespace level.battlefield {
+namespace Game.Battlefield {
 
-	public class BattlefieldModel : MonoBehaviour {
+	public class MapModel : MonoBehaviour {
 
 		private Pathfinder _pathfinder;
 
@@ -24,9 +24,9 @@ namespace level.battlefield {
 		}
 
 		public Field[,] GenerateFields(int rows, int columns, float tileSize, Vector3 pivot) {
-//			_rows = rows;
-//			_columns = columns;
-//			_pivot = pivot;
+			//			_rows = rows;
+			//			_columns = columns;
+			//			_pivot = pivot;
 			_tileSize = tileSize;
 			float halfSize = _tileSize / 2;
 			_fields = new Field[rows, columns];
@@ -55,23 +55,23 @@ namespace level.battlefield {
 		}
 
 		public Position ConvertCoordinateToPosition(Vector3 coordinate) {
-			int x = (int) ((coordinate.x - _tileSize / 2) / _tileSize);
-			int z = (int) ((coordinate.z - _tileSize / 2) / _tileSize);
+			int x = (int)((coordinate.x - _tileSize / 2) / _tileSize);
+			int z = (int)((coordinate.z - _tileSize / 2) / _tileSize);
 			return new Position(x, z);
 		}
 
 
-//		public Vector3 ConvertPositionToCoordinate(int x, int z) {
-//			float center = _tileSize / 2;
-//			float xPos = x * _tileSize + center;
-//			float zPos = z * _tileSize + center;
-//			return new Vector3(xPos, 0, zPos);
-//
-//		}
+		//		public Vector3 ConvertPositionToCoordinate(int x, int z) {
+		//			float center = _tileSize / 2;
+		//			float xPos = x * _tileSize + center;
+		//			float zPos = z * _tileSize + center;
+		//			return new Vector3(xPos, 0, zPos);
+		//
+		//		}
 
-//		private Position ConvertPositionToCoordinate(Position position) {
-//
-//		}
+		//		private Position ConvertPositionToCoordinate(Position position) {
+		//
+		//		}
 		public Field[] GetWay(Position targetPosition) {
 			List<Field> endToStart = new List<Field>();
 			Field current = GetField(targetPosition);

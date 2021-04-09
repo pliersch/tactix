@@ -1,5 +1,5 @@
-﻿using System;
-using Tanks;
+﻿using Game.Battlefield.Tanks;
+using System;
 using UnityEngine;
 
 [Serializable]

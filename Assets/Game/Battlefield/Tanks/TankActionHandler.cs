@@ -1,9 +1,9 @@
-﻿using cameras;
-using level.gameObjects;
+﻿using Game.Battlefield.Cameras;
+using Game.Units;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Tanks {
+namespace Game.Battlefield.Tanks {
 
 	public class TankActionHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
 

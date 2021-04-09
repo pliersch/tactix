@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace level.battlefield {
+namespace Game.Battlefield {
 
 	public class Tile : MonoBehaviour {
 

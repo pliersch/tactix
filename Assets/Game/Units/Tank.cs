@@ -1,7 +1,7 @@
-﻿using level.battlefield;
+﻿using Game.Battlefield;
 using UnityEngine;
 
-namespace level.gameObjects {
+namespace Game.Units {
 
 	public class Tank : Unit {
 

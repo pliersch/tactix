@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace level.battlefield.util {
+namespace Game.Battlefield.util {
 
 	public class Pathfinder {
 

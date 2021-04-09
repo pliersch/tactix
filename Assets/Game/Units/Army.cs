@@ -1,16 +1,15 @@
-﻿using level.battlefield;
+﻿using Game.Battlefield;
 using System.Collections.Generic;
-using System;
 
-namespace level.gameObjects {
+namespace Game.Units {
 
 	public class Army {
 
 		public List<Unit> _units;
 		private Unit _activeUnit;
-		private readonly Battlefield _battlefield;
+		private readonly Map _battlefield;
 
-		public Army(Battlefield battlefield, List<Unit> units) {
+		public Army(Map battlefield, List<Unit> units) {
 			_battlefield = battlefield;
 			_units = units;
 		}

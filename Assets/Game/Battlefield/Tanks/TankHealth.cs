@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Tanks {
+namespace Game.Battlefield.Tanks {
 	public class TankHealth : MonoBehaviour {
 		public float m_StartingHealth = 100f;               // The amount of health each tank starts with.
 		public Slider m_Slider;                             // The slider to represent how much health the tank currently has.

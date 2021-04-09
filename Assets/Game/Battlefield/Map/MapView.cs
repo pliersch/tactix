@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace level.battlefield {
+namespace Game.Battlefield {
 
-	public class BattlefieldView : MonoBehaviour, ITileActionHandler {
+	public class MapView : MonoBehaviour, ITileActionHandler {
 
 		public GameObject _fieldPrefab;
 		private IBattlefieldViewController _controller;
@@ -16,7 +16,7 @@ namespace level.battlefield {
 			foreach (var field in reachableFields) {
 				GameObject go =
 					Instantiate(_fieldPrefab, field.RealPosition, _fieldPrefab.transform.rotation);
-				Tile tile = (Tile) go.GetComponent(typeof(Tile));
+				Tile tile = (Tile)go.GetComponent(typeof(Tile));
 				// TODO set controller as actionhandler maybe
 				tile.SetActionHandler(this);
 				tile.SetPosition(field.Position);
@@ -38,6 +38,6 @@ namespace level.battlefield {
 			}
 		}
 
-  }
+	}
 
 }

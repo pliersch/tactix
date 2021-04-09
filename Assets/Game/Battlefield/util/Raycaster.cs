@@ -1,14 +1,13 @@
-﻿using System.Collections;
+﻿using Game.Units;
 using System.Collections.Generic;
-using level.gameObjects;
 using UnityEngine;
 
-namespace level.battlefield.util {
+namespace Game.Battlefield.util {
 
 	public class Raycaster {
 
 		public List<Unit> FindPossibleTargets(Unit offener, List<Unit> enemies) {
-		List<Unit> list = new List<Unit>();
+			List<Unit> list = new List<Unit>();
 			foreach (Unit enemy in enemies) {
 				bool isWall = false;
 				Transform p1 = offener.GetGameObject().transform;

@@ -1,8 +1,7 @@
 ﻿using System;
-using level.battlefield;
 using UnityEngine;
 
-namespace Tanks {
+namespace Game.Battlefield.Tanks {
 
 	public class TankMovement : MonoBehaviour {
 
