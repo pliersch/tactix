@@ -1,4 +1,5 @@
 ﻿using System;
+using Game.Battlefield.Map;
 using UnityEngine;
 
 namespace Game.Battlefield.Tanks {
@@ -36,7 +37,6 @@ namespace Game.Battlefield.Tanks {
 				return;
 			}
 			_rigidbody.transform.position += _movement;
-			//_rigidbody.MovePosition(_rigidbody.transform.position + _movement);
 			if (IsCheckPointReached()) {
 				if (IsTargetFieldReached()) {
 					StopMoving();

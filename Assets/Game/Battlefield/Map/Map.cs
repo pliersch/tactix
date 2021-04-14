@@ -1,11 +1,11 @@
-﻿using Game.Battlefield.util;
+﻿using System.Collections.Generic;
+using Game.Battlefield.util;
 using Game.Units;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace Game.Battlefield {
+namespace Game.Battlefield.Map {
 
 	public class Map : MonoBehaviour, IBattlefieldViewController {
 
@@ -13,25 +13,27 @@ namespace Game.Battlefield {
 		public MapView _view;
 		public PrefabFactory _factory;
 		public LevelChecker _levelChecker;
+		public QuitApplication _quitApplication;
 		public Button _nextTurnButton;
 		public Button _exitButton;
+		public Button _quitAppButton;
 		public Button _nextUnitButton;
 		public int _rows;
 		public int _columns;
 		private Army _myArmy;
 		private Army _enemyArmy;
-		private Army _offenerArmy;
+		private Army _attackerArmy;
 		private Army _defenderArmy;
 		private List<Unit> _possibleTargets;
 
 		// TODO: move LevelChecker and all of generation/initializing to a factory. Don´t want see here
 		// TODO: better Use Unity Editor scripts and check it before compile (no code in final game)
 		private void Start() {
-			Debug.Log("foo");
 			float tileSize = _levelChecker.CheckTileSize(_factory.tile);
 			Field[,] fields = _model.GenerateFields(_rows, _columns, tileSize, transform.position);
 			_nextTurnButton.onClick.AddListener(OnNextTurn);
 			_exitButton.onClick.AddListener(OnExit);
+			_quitAppButton.onClick.AddListener(OnQuitGame);
 			_nextUnitButton.onClick.AddListener(OnNextUnit);
 			_levelChecker.FindOccupiedFields(fields, _factory);
 			_view.SetController(this);
@@ -40,8 +42,8 @@ namespace Game.Battlefield {
 
 		public void HandleUnitSelected(Unit unit) {
 			// TODO re-enable if KI exists
-			//		if (unit.Army == _myArmy && _myArmy == _offenerArmy) {
-			if (unit.Army == _offenerArmy) {
+			//		if (unit.Army == _myArmy && _myArmy == _attackerArmy) {
+			if (unit.Army == _attackerArmy) {
 				ShowReachableFields(unit);
 				_possibleTargets = FindPossibleTargets(unit);
 				//	_defenderArmy.UnHighlightUnits(_possibleTargets);
@@ -62,7 +64,7 @@ namespace Game.Battlefield {
 
 		private void Attack(Unit defender) {
 			//_offenerArmy.Attack(defender);
-			Unit offener = _offenerArmy.GetActiveUnit();
+			Unit offener = _attackerArmy.GetActiveUnit();
 			offener.Fire(defender.RealPosition);
 			defender.DecreaseHealth(offener.Damage);
 			ShowReachableFields(offener);
@@ -78,9 +80,9 @@ namespace Game.Battlefield {
 		}
 
 		private bool CanAttack(Unit unit) {
-			return _offenerArmy.GetActiveUnit() != null
-			&& _offenerArmy.GetActiveUnit().GetRemainingActionPoints() > 0
-			&& _possibleTargets.Contains(unit);
+			return _attackerArmy.GetActiveUnit() != null
+			       && _attackerArmy.GetActiveUnit().GetRemainingActionPoints() > 0
+			       && _possibleTargets.Contains(unit);
 		}
 
 		public void HandleTargetFieldSelected(Position position) {
@@ -91,36 +93,43 @@ namespace Game.Battlefield {
 			//_view.ShowReachableFields(way);
 			// TODO re-enable if KI exists... OR NOT?
 			//			_myArmy.MoveActiveUnit(way);
-			_offenerArmy.MoveActiveUnit(way);
+			_attackerArmy.MoveActiveUnit(way);
 		}
+		
+		/*------------------------------------------------------------------------------------------*/
+		/*--------------------------------------- UI Event -----------------------------------------*/
+		/*------------------------------------------------------------------------------------------*/
 
-		public void OnNextTurn() {
+		private void OnNextTurn() {
 			_view.DestroyReachableFields();
-			_offenerArmy.ResetActionPoints();
-			//			DisableArmy(_offenerArmy);
+			_attackerArmy.ResetActionPoints();
+			//			DisableArmy(_attackerArmy);
 			EnableNextArmy();
 		}
 
-		public void OnExit() {
+		private void OnExit() {
 			SceneManager.LoadScene("Main Menu");
 		}
-		public void OnNextUnit() {
-			Debug.Log("Next");
-		}
 
+		private void OnNextUnit() {
+			_attackerArmy.ComputeNextActiveUnit();
+		}
+		private void OnQuitGame() {
+			_quitApplication.Quit();
+		}
+		
 		private void EnableNextArmy() {
-			if (_offenerArmy == _myArmy) {
-				_offenerArmy = _enemyArmy;
+			if (_attackerArmy == _myArmy) {
+				_attackerArmy = _enemyArmy;
 				_defenderArmy = _myArmy;
 			} else {
-				_offenerArmy = _myArmy;
+				_attackerArmy = _myArmy;
 				_defenderArmy = _enemyArmy;
 			}
 		}
-
-
+		
 		/*------------------------------------------------------------------------------------------*/
-		/*-------------------------------------- Initilize -----------------------------------------*/
+		/*-------------------------------------- Initialize ----------------------------------------*/
 		/*------------------------------------------------------------------------------------------*/
 
 		private void AddUnits() {
@@ -128,7 +137,7 @@ namespace Game.Battlefield {
 			GameObject[] enemySpawns = GameObject.FindGameObjectsWithTag("EnemySpawn");
 			InitUnits(out _myArmy, spawns);
 			InitUnits(out _enemyArmy, enemySpawns);
-			_offenerArmy = _myArmy;
+			_attackerArmy = _myArmy;
 			_defenderArmy = _enemyArmy;
 		}
 
@@ -139,7 +148,7 @@ namespace Game.Battlefield {
 			army = new Army(this, units);
 			for (int i = 0; i < count; i++) {
 				Vector3 localPosition = spawns[i].transform.localPosition;
-				var position = _model.ConvertCoordinateToPosition(localPosition);
+				Position position = _model.ConvertCoordinateToPosition(localPosition);
 				Field field = _model.GetField(position);
 				GameObject go = _view.AddUnit(_factory.tank, field.RealPosition);
 				Unit unit = new Tank(go, army, position, localPosition);

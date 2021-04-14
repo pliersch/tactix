@@ -1,5 +1,7 @@
 ﻿using Game.Battlefield;
+using System;
 using System.Collections.Generic;
+using Game.Battlefield.Map;
 
 namespace Game.Units {
 
@@ -16,6 +18,24 @@ namespace Game.Units {
 
 		public Unit GetActiveUnit() {
 			return _activeUnit;
+		}
+
+		public List<Unit> GetUnits() {
+			return _units;
+		}
+
+		public void ComputeNextActiveUnit() {
+			int index = _units.IndexOf(_activeUnit);
+			int newIndex = getNextUnitInList(index);
+			HandleUnitSelected(_units[newIndex]);
+		}
+
+		private int getNextUnitInList(int index) {
+			if (index == _units.Count - 1) {
+				return 0;
+			}
+			//index++;
+			return index + 1;
 		}
 
 		public void HandleUnitSelected(Unit unit) {
@@ -37,10 +57,6 @@ namespace Game.Units {
 			_battlefield.HandleUnitMovementComplete(unit);
 		}
 
-		public List<Unit> GetUnits() {
-			return _units;
-		}
-
 		public void HighlightUnits(List<Unit> units) {
 			foreach (Unit unit in units) {
 				unit.Highlight();
@@ -57,6 +73,8 @@ namespace Game.Units {
 			_units.Remove(unit);
 			_battlefield.HandleDeath(unit);
 		}
+
+
 	}
 
 }

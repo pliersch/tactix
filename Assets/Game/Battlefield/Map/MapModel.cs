@@ -3,7 +3,7 @@ using Game.Battlefield.util;
 using Game.Units;
 using UnityEngine;
 
-namespace Game.Battlefield {
+namespace Game.Battlefield.Map {
 
 	public class MapModel : MonoBehaviour {
 

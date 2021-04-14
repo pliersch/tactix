@@ -1,4 +1,5 @@
 ﻿using Game.Battlefield;
+using Game.Battlefield.Map;
 using Game.Battlefield.Tanks;
 using UnityEngine;
 
@@ -16,11 +17,9 @@ namespace Game.Units {
 		protected int _remainingActionPoints;
 		internal int Damage;
 
-		public Army Army
-		{
+		public Army Army {
 			get { return _army; }
 		}
-
 
 		protected Unit(GameObject go, Army army, Position position, Vector3 realPosition) {
 			Position = position;
@@ -104,6 +103,9 @@ namespace Game.Units {
 			//			}
 		}
 
+		public override string ToString() {
+			return "Unit Pos: " + Position.x + "|" + Position.z;
+		}
 	}
 
 }

@@ -1,5 +1,4 @@
-﻿
-namespace Game.Battlefield {
+﻿namespace Game.Battlefield.Map {
 
 	public interface ITileActionHandler {
 

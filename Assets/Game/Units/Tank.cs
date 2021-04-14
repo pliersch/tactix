@@ -1,4 +1,4 @@
-﻿using Game.Battlefield;
+﻿using Game.Battlefield.Map;
 using UnityEngine;
 
 namespace Game.Units {
