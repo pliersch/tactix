@@ -63,11 +63,11 @@ namespace Game.Battlefield.Map {
 		}
 
 		private void Attack(Unit defender) {
-			//_offenerArmy.Attack(defender);
-			Unit offener = _attackerArmy.GetActiveUnit();
-			offener.Fire(defender.RealPosition);
-			defender.DecreaseHealth(offener.Damage);
-			ShowReachableFields(offener);
+			//_attackerArmy.Attack(defender);
+			Unit activeUnit = _attackerArmy.GetActiveUnit();
+			activeUnit.Fire(defender.RealPosition);
+			defender.DecreaseHealth(activeUnit.Damage);
+			ShowReachableFields(activeUnit);
 		}
 
 		private void ShowReachableFields(Unit unit) {
