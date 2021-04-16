@@ -1,5 +1,4 @@
-﻿using Game.Battlefield;
-using Game.Battlefield.Map;
+﻿using Game.Battlefield.Map;
 using Game.Battlefield.Tanks;
 using UnityEngine;
 
@@ -7,28 +6,26 @@ namespace Game.Units {
 
 	public abstract class Unit {
 
-		public Position Position { get; set; }
-		public Vector3 RealPosition { get; set; }
-		protected GameObject _go;
-		protected TankActionHandler _actionHandler;
-		private readonly Army _army;
-		public int ActionPoints { get; set; }
-		public int Health { get; set; }
+		private readonly GameObject _go;
 		protected int _remainingActionPoints;
-		internal int Damage;
-
-		public Army Army {
-			get { return _army; }
-		}
+		internal int _damage;
 
 		protected Unit(GameObject go, Army army, Position position, Vector3 realPosition) {
 			Position = position;
 			RealPosition = realPosition;
 			_go = go;
-			_army = army;
-			_actionHandler = go.GetComponent<TankActionHandler>();
-			_actionHandler.SetInteractionHandler(this);
+			Army = army;
+			TankActionHandler actionHandler = go.GetComponent<TankActionHandler>();
+			actionHandler.SetInteractionHandler(this);
 		}
+
+		public Position Position { get; private set; }
+		public Vector3 RealPosition { get; private set; }
+		protected int ActionPoints { get; set; }
+		protected int Health { get; set; }
+		protected int Damage { get; set; }
+
+		public Army Army { get; }
 
 		public GameObject GetGameObject() {
 			return _go;
@@ -39,11 +36,11 @@ namespace Game.Units {
 		}
 
 		public void HandleClick() {
-			_army.HandleUnitSelected(this);
+			Army.HandleUnitSelected(this);
 		}
 
 		public void HandleMovementComplete() {
-			_army.HandleUnitMovementComplete(this);
+			Army.HandleUnitMovementComplete(this);
 		}
 
 		public void Move(Field[] way) {
@@ -61,15 +58,13 @@ namespace Game.Units {
 		}
 
 		public void Fire(Vector3 target) {
-			if (_remainingActionPoints == 0) {
-				return;
-			}
+			if (_remainingActionPoints == 0) return;
 			_remainingActionPoints--;
 			_go.transform.LookAt(target);
 			TankShooting tankShooting = _go.GetComponent<TankShooting>();
 			LineShooting shooting = _go.GetComponentInChildren<LineShooting>();
 			Vector3 offset = target - _go.transform.position;
-			float distance = Mathf.Sqrt(offset.x * offset.x + offset.z * offset.z);
+			var distance = Mathf.Sqrt(offset.x * offset.x + offset.z * offset.z);
 			shooting.Shoot(distance);
 			tankShooting.Fire(distance);
 		}
@@ -77,9 +72,10 @@ namespace Game.Units {
 		internal void DecreaseHealth(int damage) {
 			Health -= damage;
 			if (Health <= 0) {
-				_army.HandleDeath(this);
+				Army.HandleDeath(this);
 				_go.GetComponent<TankHealth>().OnDeath();
 			}
+
 			_go.GetComponent<TankHealth>().TakeDamage(damage);
 		}
 
@@ -106,6 +102,7 @@ namespace Game.Units {
 		public override string ToString() {
 			return "Unit Pos: " + Position.x + "|" + Position.z;
 		}
+
 	}
 
 }

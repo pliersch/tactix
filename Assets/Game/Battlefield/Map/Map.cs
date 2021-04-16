@@ -66,7 +66,7 @@ namespace Game.Battlefield.Map {
 			//_attackerArmy.Attack(defender);
 			Unit activeUnit = _attackerArmy.GetActiveUnit();
 			activeUnit.Fire(defender.RealPosition);
-			defender.DecreaseHealth(activeUnit.Damage);
+			defender.DecreaseHealth(activeUnit._damage);
 			ShowReachableFields(activeUnit);
 		}
 

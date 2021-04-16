@@ -8,7 +8,8 @@ namespace Game.Units {
 		public Tank(GameObject go, Army army, Position position, Vector3 realPosition) : base(go, army, position, realPosition) {
 			ActionPoints = 5;
 			Health = 10;
-			Damage = 2;
+			_damage = 2;
+			// Distance = 35;
 			_remainingActionPoints = ActionPoints;
 		}
 

@@ -7,22 +7,27 @@ namespace Game.Battlefield.util {
 	public static class Raycaster {
 
 		public static List<Unit> FindPossibleTargets(Unit attacker, IEnumerable<Unit> enemies) {
-			List<Unit> list = new List<Unit>();
+			List<Unit> possibleTargets = new List<Unit>();
+			Transform p1 = attacker.GetGameObject().transform;
+			Vector3 attackerPosition = attacker.GetGameObject().transform.position;
+			GameObject attackerCopy = new GameObject();
+			attackerCopy.transform.position = attackerPosition;
+			
 			foreach (Unit enemy in enemies) {
-				var isWall = false;
-				Transform p1 = attacker.GetGameObject().transform;
-				GameObject go = new GameObject("test");
-				go.transform.position = p1.position;
-				go.transform.LookAt(enemy.RealPosition);
-				var dist = Vector3.Distance(p1.position, enemy.GetGameObject().transform.position);
-				RaycastHit[] hits = Physics.RaycastAll(go.transform.position, go.transform.forward, dist);
+				attackerCopy.transform.LookAt(enemy.RealPosition);
+				bool isWall = false;
+				var dist = Vector3.Distance(attackerPosition, enemy.GetGameObject().transform.position);
+				
+				
+				
+				RaycastHit[] hits = Physics.RaycastAll(attackerCopy.transform.position, attackerCopy.transform.forward, dist);
 				foreach (RaycastHit hit in hits)
 					if (hit.collider.CompareTag("Wall"))
 						isWall = true;
-				if (!isWall) list.Add(enemy);
+				if (!isWall) possibleTargets.Add(enemy);
 			}
 
-			return list;
+			return possibleTargets;
 		}
 
 	}
