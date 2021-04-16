@@ -1,16 +1,12 @@
 ﻿using UnityEngine;
 
-namespace Game.Battlefield.Tanks {
+namespace Game.Battlefield.util {
 
-	public class Gui : MonoBehaviour {
+	public class Gui3DToCam : MonoBehaviour {
 
 		public GameObject _text;
-		
-		private void Update() {
-			ComputeDirection();
-		}
 
-		private void ComputeDirection() {
+		private void Update() {
 			Vector3 dir = Quaternion.Euler(0, 270, 45) * Vector3.down;
 			Quaternion rotation = Quaternion.LookRotation(dir);
 			_text.transform.rotation = rotation;
