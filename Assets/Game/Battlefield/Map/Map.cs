@@ -76,7 +76,7 @@ namespace Game.Battlefield.Map {
 		}
 
 		private List<Unit> FindPossibleTargets(Unit unit) {
-			return new Raycaster().FindPossibleTargets(unit, _defenderArmy.GetUnits());
+			return Raycaster.FindPossibleTargets(unit, _defenderArmy.GetUnits());
 		}
 
 		private bool CanAttack(Unit unit) {

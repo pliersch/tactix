@@ -7,7 +7,7 @@ namespace Game.Units {
 
 	public class Army {
 
-		public List<Unit> _units;
+		private readonly List<Unit> _units;
 		private Unit _activeUnit;
 		private readonly Map _battlefield;
 
