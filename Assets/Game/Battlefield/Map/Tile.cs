@@ -49,6 +49,10 @@ namespace Game.Battlefield.Map {
 			_position = fieldPosition;
 		}
 
+		public override string ToString() {
+			return "X: " + _position.x + " Z: " + _position.z;
+		}
+
 	}
 
 }
