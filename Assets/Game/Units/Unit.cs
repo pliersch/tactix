@@ -1,31 +1,43 @@
 ﻿using Game.Battlefield.Map;
 using Game.Battlefield.Tanks;
+using Game.Battlefield.util;
 using UnityEngine;
 
 namespace Game.Units {
 
+	// TODO is it better to inherit from MonoBehaviour to use lifecycle methods? 
 	public abstract class Unit {
 
 		private readonly GameObject _go;
+		private GameObject _infoText;
 		protected int _remainingActionPoints;
-		internal int _damage;
 
 		protected Unit(GameObject go, Army army, Position position, Vector3 realPosition) {
 			Position = position;
 			RealPosition = realPosition;
 			_go = go;
 			Army = army;
+			// TODO "go" must have the TankActionHandler. possible nullpointer 
 			TankActionHandler actionHandler = go.GetComponent<TankActionHandler>();
 			actionHandler.SetInteractionHandler(this);
+
+			_infoText = _go.GetComponentInChildren<Gui3DToCam>()._text;
+			UnHighlight();
 		}
 
-		public Position Position { get; private set; }
-		public Vector3 RealPosition { get; private set; }
-		protected int ActionPoints { get; set; }
-		protected int Health { get; set; }
-		protected int Damage { get; set; }
-
 		public Army Army { get; }
+
+		public Position Position { get; private set; }
+
+		public Vector3 RealPosition { get; private set; }
+
+		protected int ActionPoints { get; set; }
+
+		protected int Health { get; set; }
+
+		public int Reach { get; protected set; }
+
+		internal int Damage { get; set; }
 
 		public GameObject GetGameObject() {
 			return _go;
@@ -80,23 +92,11 @@ namespace Game.Units {
 		}
 
 		public void Highlight() {
-			//			MeshRenderer[] renderers = _go.GetComponentsInChildren<MeshRenderer>();
-			//			foreach (MeshRenderer renderer in renderers) {
-			//				//t.material.color = Color.blue;
-			//				Color color = renderer.material.color;
-			//				color.a = 0.8f;
-			//				renderer.material.color = color;
-			//			}
+			_infoText.SetActive(true);
 		}
 
 		public void UnHighlight() {
-			//			MeshRenderer[] renderers = _go.GetComponentsInChildren<MeshRenderer>();
-			//			foreach (MeshRenderer renderer in renderers) {
-			//				//t.material.color = Color.blue;
-			//				Color color = renderer.material.color;
-			//				color.b = 1;
-			//				renderer.material.color = color;
-			//			}
+			_infoText.SetActive(false);
 		}
 
 		public override string ToString() {

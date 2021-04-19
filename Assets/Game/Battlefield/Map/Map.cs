@@ -41,11 +41,13 @@ namespace Game.Battlefield.Map {
 		}
 
 		public void HandleUnitSelected(Unit unit) {
+			
 			// TODO re-enable if KI exists
 			//		if (unit.Army == _myArmy && _myArmy == _attackerArmy) {
 			if (unit.Army == _attackerArmy) {
 				ShowReachableFields(unit);
 				_possibleTargets = FindPossibleTargets(unit);
+				ShowPossibleTargets(_possibleTargets);
 				//	_defenderArmy.UnHighlightUnits(_possibleTargets);
 				//	_defenderArmy.HighlightUnits(_possibleTargets);
 			} else if (CanAttack(unit)) {
@@ -60,19 +62,29 @@ namespace Game.Battlefield.Map {
 		public void HandleUnitMovementComplete(Unit unit) {
 			_view.ShowReachableFields(_model.GetReachableFields(unit.Position, unit.GetRemainingActionPoints()));
 			_possibleTargets = FindPossibleTargets(unit);
+			ShowPossibleTargets(_possibleTargets);
 		}
 
 		private void Attack(Unit defender) {
 			//_attackerArmy.Attack(defender);
 			Unit activeUnit = _attackerArmy.GetActiveUnit();
 			activeUnit.Fire(defender.RealPosition);
-			defender.DecreaseHealth(activeUnit._damage);
+			defender.DecreaseHealth(activeUnit.Damage);
 			ShowReachableFields(activeUnit);
 		}
 
 		private void ShowReachableFields(Unit unit) {
 			_view.DestroyReachableFields();
 			_view.ShowReachableFields(_model.GetReachableFields(unit.Position, unit.GetRemainingActionPoints()));
+		}
+
+		private void ShowPossibleTargets(List<Unit> units) {
+			foreach (Unit unit in _defenderArmy.GetUnits()) {
+				unit.UnHighlight();
+			}			
+			foreach (Unit unit in units) {
+				unit.Highlight();
+			}
 		}
 
 		private List<Unit> FindPossibleTargets(Unit unit) {

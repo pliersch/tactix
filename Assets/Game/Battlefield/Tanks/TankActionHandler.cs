@@ -12,8 +12,8 @@ namespace Game.Battlefield.Tanks {
 		private Vector3 _cameraPosition;
 
 		private void Start() {
-			var camerRig = GameObject.FindWithTag("MainCamera");
-			_cameraFollow = camerRig.GetComponent<CameraFollow>();
+			GameObject cameraRig = GameObject.FindWithTag("MainCamera");
+			_cameraFollow = cameraRig.GetComponent<CameraFollow>();
 		}
 
 		public void SetInteractionHandler(Unit handler) {
