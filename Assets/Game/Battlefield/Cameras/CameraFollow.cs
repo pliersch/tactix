@@ -14,7 +14,7 @@ namespace Game.Battlefield.Cameras {
 		private Camera _camera;
 		private Vector3 _resetCamera; // original camera position
 		private Vector3 _origin; // place where mouse is first pressed
-		private Vector3 _diference; // change in position of mouse relative to origin
+		private Vector3 _difference; // change in position of mouse relative to origin
 
 		public void AddTarget(Transform target) {
 			_target = target;
@@ -31,7 +31,7 @@ namespace Game.Battlefield.Cameras {
 		}
 
 		private void FixedUpdate() {
-			//			// Create a postion the camera is aiming for based on the offset from the target.
+			//			// Create a position the camera is aiming for based on the offset from the target.
 			//			Vector3 targetCamPos = _target.position + _offset;
 			//			// Smoothly interpolate between the camera's current position and it's target position.
 			//			transform.position = Vector3.Lerp(transform.position, targetCamPos, _smoothing * Time.deltaTime);
@@ -42,8 +42,8 @@ namespace Game.Battlefield.Cameras {
 				_origin = MousePos();
 			}
 			if (Input.GetMouseButton(0)) {
-				_diference = MousePos() - transform.position;
-				transform.position = _origin - _diference;
+				_difference = MousePos() - transform.position;
+				transform.position = _origin - _difference;
 			}
 			// reset camera to original position
 			if (Input.GetMouseButton(1)) {

@@ -34,7 +34,6 @@ namespace Game.Units {
 			if (index == _units.Count - 1) {
 				return 0;
 			}
-			//index++;
 			return index + 1;
 		}
 

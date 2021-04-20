@@ -8,8 +8,9 @@ namespace Game.Battlefield.util {
 
 		public float CheckTileSize(GameObject tile) {
 			Renderer fieldRenderer = tile.GetComponentInChildren<Renderer>();
-			float width = fieldRenderer.bounds.size.x;
-			float depth = fieldRenderer.bounds.size.z;
+			Vector3 boundsSize = fieldRenderer.bounds.size;
+			float width = boundsSize.x;
+			float depth = boundsSize.z;
 			if (Math.Abs(width - depth) > 0.01) {
 				Debug.LogError("Computed size of tile: " + width + " and " + depth);
 			}

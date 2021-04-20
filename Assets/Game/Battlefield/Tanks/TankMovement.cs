@@ -14,7 +14,7 @@ namespace Game.Battlefield.Tanks {
 		private int _currentFieldIndex;
 		private Vector3 _checkPoint;
 		private Field[] _way;
-		private readonly float _speed = 0.5f;
+		private const float Speed = 0.5f;
 		private Vector3 _movement;
 		private bool _isMoving;
 
@@ -77,16 +77,16 @@ namespace Game.Battlefield.Tanks {
 			Position lastPosition = _way[_currentFieldIndex - 1].Position;
 			if (nextPosition.x > lastPosition.x) {
 				_rigidbody.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
-				_movement = new Vector3(_speed, 0, 0);
+				_movement = new Vector3(Speed, 0, 0);
 			} else if (nextPosition.x < lastPosition.x) {
 				_rigidbody.transform.rotation = Quaternion.Euler(0f, -90f, 0f);
-				_movement = new Vector3(-_speed, 0, 0);
+				_movement = new Vector3(-Speed, 0, 0);
 			} else if (nextPosition.z > lastPosition.z) {
 				_rigidbody.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-				_movement = new Vector3(0, 0, _speed);
+				_movement = new Vector3(0, 0, Speed);
 			} else if (nextPosition.z < lastPosition.z) {
 				_rigidbody.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
-				_movement = new Vector3(0, 0, -_speed);
+				_movement = new Vector3(0, 0, -Speed);
 			}
 		}
 
