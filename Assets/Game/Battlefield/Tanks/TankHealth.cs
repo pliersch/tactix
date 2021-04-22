@@ -17,13 +17,13 @@ namespace Game.Battlefield.Tanks {
 
 		private void Awake() {
 			// Instantiate the explosion prefab and get a reference to the particle system on it.
-			m_ExplosionParticles = Instantiate(m_ExplosionPrefab).GetComponent<ParticleSystem>();
-
-			// Get a reference to the audio source on the instantiated prefab.
-			m_ExplosionAudio = m_ExplosionParticles.GetComponent<AudioSource>();
-
-			// Disable the prefab so it can be activated when it's required.
-			m_ExplosionParticles.gameObject.SetActive(false);
+			// m_ExplosionParticles = Instantiate(m_ExplosionPrefab).GetComponent<ParticleSystem>();
+			//
+			// // Get a reference to the audio source on the instantiated prefab.
+			// m_ExplosionAudio = m_ExplosionParticles.GetComponent<AudioSource>();
+			//
+			// // Disable the prefab so it can be activated when it's required.
+			// m_ExplosionParticles.gameObject.SetActive(false);
 		}
 
 		private void OnEnable() {
@@ -52,10 +52,15 @@ namespace Game.Battlefield.Tanks {
 
 
 		public void OnDeath() {
+			
+			m_ExplosionParticles = Instantiate(m_ExplosionPrefab).GetComponent<ParticleSystem>();
+
+			// Get a reference to the audio source on the instantiated prefab.
+			m_ExplosionAudio = m_ExplosionParticles.GetComponent<AudioSource>();
+
 			// Move the instantiated explosion prefab to the tank's position and turn it on.
 			m_ExplosionParticles.transform.position = transform.position;
-			m_ExplosionParticles.gameObject.SetActive(true);
-
+			
 			// Play the particle system of the tank exploding.
 			m_ExplosionParticles.Play();
 

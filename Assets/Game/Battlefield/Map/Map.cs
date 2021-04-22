@@ -26,11 +26,12 @@ namespace Game.Battlefield.Map {
 		private Army _defenderArmy;
 		private List<Unit> _possibleTargets;
 
-		// TODO: move LevelChecker and all of generation/initializing to a factory. Don´t want see here
 		// TODO: better Use Unity Editor scripts and check it before compile (no code in final game)
 		private void Start() {
 			float tileSize = _levelChecker.CheckTileSize(_factory.tile);
-			Field[,] fields = _model.GenerateFields(_rows, _columns, tileSize, transform.position);
+			Field[,] fields = FieldFactory.GenerateFields(_rows, _columns, tileSize);
+			_model.SetTileSize(tileSize);
+			_model.SetFields(fields);
 			_nextTurnButton.onClick.AddListener(OnNextTurn);
 			_exitButton.onClick.AddListener(OnExit);
 			_quitAppButton.onClick.AddListener(OnQuitGame);

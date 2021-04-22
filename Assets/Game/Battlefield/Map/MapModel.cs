@@ -13,40 +13,21 @@ namespace Game.Battlefield.Map {
 
 		private float _tileSize;
 
+		public void SetFields(Field[,] fields) {
+			_fields = fields;
+			_pathfinder = new Pathfinder(fields);
+		}
+		
+		public void SetTileSize(float tileSize) {
+			_tileSize = tileSize;
+		}
 		// TODO do we need param unit?
 		public void UpdateAddedUnit(Unit unit, Position position) {
 			_fields[position.x, position.z].IsFree = false;
-			//_fields[position.x, position.z].
 		}
 
 		public Field GetField(Position position) {
 			return _fields[position.x, position.z];
-		}
-
-		public Field[,] GenerateFields(int rows, int columns, float tileSize, Vector3 pivot) {
-			//			_rows = rows;
-			//			_columns = columns;
-			//			_pivot = pivot;
-			_tileSize = tileSize;
-			float halfSize = _tileSize / 2;
-			_fields = new Field[rows, columns];
-			for (int x = 0; x < rows; x++) {
-				for (int y = 0; y < columns; y++) {
-					float xPos = x * _tileSize + halfSize;
-					float zPos = y * _tileSize + halfSize;
-					Field field = new Field {
-						WayCost = 1,
-						IsFree = true,
-						Position = new Position(x, y),
-						RealPosition = new Vector3(xPos, 0.1f, zPos)
-					};
-					_fields[x, y] = field;
-				}
-			}
-			// is not nice because hard to find, but performant
-			// is there a better solution?
-			_pathfinder = new Pathfinder(_fields);
-			return _fields;
 		}
 
 		internal Field[] GetReachableFields(Position position, int actionPoints) {
