@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
+using Game.Battlefield.Map.Factories;
 using Game.Battlefield.Tanks;
 using Game.Battlefield.util;
 using Game.Units;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 namespace Game.Battlefield.Map {
 
@@ -12,13 +11,10 @@ namespace Game.Battlefield.Map {
 
 		private MapModel _model;
 		public MapView _view;
+		public MapUI _ui;
+		private MapFactory _mapFactory;
 		public PrefabFactory _factory;
 		public LevelChecker _levelChecker;
-		public QuitApplication _quitApplication;
-		public Button _nextTurnButton;
-		public Button _exitButton;
-		public Button _quitAppButton;
-		public Button _nextUnitButton;
 		public int _rows;
 		public int _columns;
 		private Army _myArmy;
@@ -29,16 +25,13 @@ namespace Game.Battlefield.Map {
 
 		// TODO: better Use Unity Editor scripts and check it before compile (no code in final game)
 		private void Start() {
-			_nextTurnButton.onClick.AddListener(OnNextTurn);
-			_exitButton.onClick.AddListener(OnExit);
-			_quitAppButton.onClick.AddListener(OnQuitGame);
-			_nextUnitButton.onClick.AddListener(OnNextUnit);
 			// AddUnits();
-			init();
+			Init();
 		}
 
-		private void init() {
+		private void Init() {
 			_model = new MapModel();
+			_mapFactory = new MapFactory();
 			float tileSize = _levelChecker.CheckTileSize(_factory.tile);
 			Field[,] fields = FieldFactory.GenerateFields(_rows, _columns, tileSize);
 			_model.SetTileSize(tileSize);
@@ -144,28 +137,6 @@ namespace Game.Battlefield.Map {
 			_attackerArmy.MoveActiveUnit(way);
 		}
 		
-		/*------------------------------------------------------------------------------------------*/
-		/*--------------------------------------- UI Event -----------------------------------------*/
-		/*------------------------------------------------------------------------------------------*/
-
-		private void OnNextTurn() {
-			_view.DestroyReachableFields();
-			_attackerArmy.ResetActionPoints();
-			//			DisableArmy(_attackerArmy);
-			EnableNextArmy();
-		}
-
-		private void OnExit() {
-			SceneManager.LoadScene("Main Menu");
-		}
-
-		private void OnNextUnit() {
-			_attackerArmy.ComputeNextActiveUnit();
-		}
-		private void OnQuitGame() {
-			_quitApplication.Quit();
-		}
-		
 		private void EnableNextArmy() {
 			if (_attackerArmy == _myArmy) {
 				_attackerArmy = _enemyArmy;
@@ -176,6 +147,21 @@ namespace Game.Battlefield.Map {
 			}
 		}
 		
+		/*------------------------------------------------------------------------------------------*/
+		/*--------------------------------------- UI Events ----------------------------------------*/
+		/*------------------------------------------------------------------------------------------*/
+
+		public void HandleNextTurn() {
+			_view.DestroyReachableFields();
+			_attackerArmy.ResetActionPoints();
+			//			DisableArmy(_attackerArmy);
+			EnableNextArmy();
+		}
+
+		public void HandleNextUnit() {
+			_attackerArmy.ComputeNextActiveUnit();
+		}
+
 		// /*------------------------------------------------------------------------------------------*/
 		// /*-------------------------------------- Initialize ----------------------------------------*/
 		// /*------------------------------------------------------------------------------------------*/

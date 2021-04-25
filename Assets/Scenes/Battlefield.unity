@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 87381188}
   - component: {fileID: 87381187}
   - component: {fileID: 87381193}
+  - component: {fileID: 87381192}
   m_Layer: 0
   m_Name: Battlefield
   m_TagString: Untagged
@@ -200,13 +201,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _view: {fileID: 87381191}
+  _ui: {fileID: 87381192}
   _factory: {fileID: 87381188}
   _levelChecker: {fileID: 87381187}
-  _quitApplication: {fileID: 87381193}
-  _nextTurnButton: {fileID: 1967116802}
-  _exitButton: {fileID: 813149385}
-  _quitAppButton: {fileID: 477911478}
-  _nextUnitButton: {fileID: 582002812}
   _rows: 16
   _columns: 16
 --- !u!114 &87381191
@@ -222,6 +219,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fieldPrefab: {fileID: 1890521385006604, guid: f4ab312b6196ebd4597ec404d90c171f, type: 3}
+--- !u!114 &87381192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87381186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 436029a6f1cb4556ac813d5858b472bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  map: {fileID: 87381190}
+  nextTurnButton: {fileID: 1967116802}
+  exitButton: {fileID: 813149385}
+  quitAppButton: {fileID: 477911478}
+  nextUnitButton: {fileID: 582002812}
+  quitApplication: {fileID: 87381193}
 --- !u!114 &87381193
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Game.Battlefield.Map {
+namespace Game.Battlefield.Map.Factories {
 
 	public static class FieldFactory {
 		

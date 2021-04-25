@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using Game.Units;
 
-namespace Game.Battlefield.Map {
+namespace Game.Units {
 
 	public static class UnitFactory {
 		

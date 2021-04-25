@@ -1,9 +1,9 @@
 ﻿namespace Game.Battlefield.Map {
 
-	public struct Position {
+	public readonly struct Position {
 
-		public int x;
-		public int z;
+		public readonly int x;
+		public readonly int z;
 
 		public Position(int x, int z) {
 			this.x = x;
