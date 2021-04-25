@@ -133,7 +133,6 @@ GameObject:
   m_Component:
   - component: {fileID: 87381189}
   - component: {fileID: 87381190}
-  - component: {fileID: 87381192}
   - component: {fileID: 87381191}
   - component: {fileID: 87381188}
   - component: {fileID: 87381187}
@@ -200,7 +199,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e96680ee1f621d409517b663b182e94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _model: {fileID: 87381192}
   _view: {fileID: 87381191}
   _factory: {fileID: 87381188}
   _levelChecker: {fileID: 87381187}
@@ -224,18 +222,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fieldPrefab: {fileID: 1890521385006604, guid: f4ab312b6196ebd4597ec404d90c171f, type: 3}
---- !u!114 &87381192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 87381186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6386ed97626494948811408b9159ace1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &87381193
 MonoBehaviour:
   m_ObjectHideFlags: 0

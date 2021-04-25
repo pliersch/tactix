@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Game.Battlefield.Tanks;
 using Game.Battlefield.util;
 using Game.Units;
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace Game.Battlefield.Map {
 
 	public class Map : MonoBehaviour, IBattlefieldViewController {
 
-		public MapModel _model;
+		private MapModel _model;
 		public MapView _view;
 		public PrefabFactory _factory;
 		public LevelChecker _levelChecker;
@@ -28,17 +29,51 @@ namespace Game.Battlefield.Map {
 
 		// TODO: better Use Unity Editor scripts and check it before compile (no code in final game)
 		private void Start() {
-			float tileSize = _levelChecker.CheckTileSize(_factory.tile);
-			Field[,] fields = FieldFactory.GenerateFields(_rows, _columns, tileSize);
-			_model.SetTileSize(tileSize);
-			_model.SetFields(fields);
 			_nextTurnButton.onClick.AddListener(OnNextTurn);
 			_exitButton.onClick.AddListener(OnExit);
 			_quitAppButton.onClick.AddListener(OnQuitGame);
 			_nextUnitButton.onClick.AddListener(OnNextUnit);
+			// AddUnits();
+			init();
+		}
+
+		private void init() {
+			_model = new MapModel();
+			float tileSize = _levelChecker.CheckTileSize(_factory.tile);
+			Field[,] fields = FieldFactory.GenerateFields(_rows, _columns, tileSize);
+			_model.SetTileSize(tileSize);
+			_model.SetFields(fields);
 			_levelChecker.FindOccupiedFields(fields, _factory);
 			_view.SetController(this);
-			AddUnits();
+			Army[] armies = UnitFactory.InitArmies(2, 4);
+			_myArmy = armies[0];
+			_enemyArmy = armies[1];
+			_myArmy.Map = this;
+			_enemyArmy.Map = this;
+			_attackerArmy = _myArmy;
+			_defenderArmy = _enemyArmy;
+			GameObject[] spawns = GameObject.FindGameObjectsWithTag("Respawn");
+			GameObject[] enemySpawns = GameObject.FindGameObjectsWithTag("EnemySpawn");
+			InitUnits(ref _myArmy, spawns);
+			InitUnits(ref _enemyArmy, enemySpawns);
+		}
+		
+		private void InitUnits(ref Army army, GameObject[] spawns) {
+			int count = army.GetUnits().Count;
+			for (int i = 0; i < count; i++) {
+				Vector3 localPosition = spawns[i].transform.localPosition;
+				Position position = _model.ConvertCoordinateToPosition(localPosition);
+				Field field = _model.GetField(position);
+				GameObject go = _view.AddUnit(_factory.tank, field.RealPosition);
+				Unit unit = army.GetUnits()[i];
+				unit.Position = position;
+				unit.RealPosition = localPosition;
+				unit.GameObject = go;
+				TankActionHandler actionHandler = go.GetComponent<TankActionHandler>();
+				actionHandler.SetInteractionHandler(unit);
+				// Unit unit = new Tank(go, army, position, localPosition);
+				_model.UpdateAddedUnit(unit, position);
+			}
 		}
 
 		public void HandleUnitSelected(Unit unit) {
@@ -141,34 +176,36 @@ namespace Game.Battlefield.Map {
 			}
 		}
 		
-		/*------------------------------------------------------------------------------------------*/
-		/*-------------------------------------- Initialize ----------------------------------------*/
-		/*------------------------------------------------------------------------------------------*/
-
-		private void AddUnits() {
-			GameObject[] spawns = GameObject.FindGameObjectsWithTag("Respawn");
-			GameObject[] enemySpawns = GameObject.FindGameObjectsWithTag("EnemySpawn");
-			InitUnits(out _myArmy, spawns);
-			InitUnits(out _enemyArmy, enemySpawns);
-			_attackerArmy = _myArmy;
-			_defenderArmy = _enemyArmy;
-		}
-
-
-		private void InitUnits(out Army army, GameObject[] spawns) {
-			int count = spawns.Length;
-			List<Unit> units = new List<Unit>(count);
-			army = new Army(this, units);
-			for (int i = 0; i < count; i++) {
-				Vector3 localPosition = spawns[i].transform.localPosition;
-				Position position = _model.ConvertCoordinateToPosition(localPosition);
-				Field field = _model.GetField(position);
-				GameObject go = _view.AddUnit(_factory.tank, field.RealPosition);
-				Unit unit = new Tank(go, army, position, localPosition);
-				units.Add(unit);
-				_model.UpdateAddedUnit(unit, position);
-			}
-		}
+		// /*------------------------------------------------------------------------------------------*/
+		// /*-------------------------------------- Initialize ----------------------------------------*/
+		// /*------------------------------------------------------------------------------------------*/
+		//
+		// private void AddUnits() {
+		// 	GameObject[] spawns = GameObject.FindGameObjectsWithTag("Respawn");
+		// 	GameObject[] enemySpawns = GameObject.FindGameObjectsWithTag("EnemySpawn");
+		// 	InitUnits(out _myArmy, spawns);
+		// 	InitUnits(out _enemyArmy, enemySpawns);
+		// 	_attackerArmy = _myArmy;
+		// 	_defenderArmy = _enemyArmy;
+		// }
+		//
+		//
+		// private void InitUnits(out Army army, GameObject[] spawns) {
+		// 	int count = spawns.Length;
+		// 	List<Unit> units = new List<Unit>(count);
+		// 	army = new Army(units) {
+		// 		Map = this
+		// 	};
+		// 	for (int i = 0; i < count; i++) {
+		// 		Vector3 localPosition = spawns[i].transform.localPosition;
+		// 		Position position = _model.ConvertCoordinateToPosition(localPosition);
+		// 		Field field = _model.GetField(position);
+		// 		GameObject go = _view.AddUnit(_factory.tank, field.RealPosition);
+		// 		Unit unit = new Tank(go, army, position, localPosition);
+		// 		units.Add(unit);
+		// 		_model.UpdateAddedUnit(unit, position);
+		// 	}
+		// }
 
 	}
 

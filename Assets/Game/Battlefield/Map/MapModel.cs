@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Game.Battlefield.Map {
 
-	public class MapModel : MonoBehaviour {
+	public class MapModel {
 
 		private Pathfinder _pathfinder;
 

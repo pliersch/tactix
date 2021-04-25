@@ -24,20 +24,20 @@ namespace Game.Battlefield.util {
 			CleanUpParents();
 			_openFields = new List<Field>();
 			_closedFields = new List<Field>();
-			Field chckField;
+			Field checkField;
 
-			var startField = _fields[position.x, position.z];
-			var currentField = startField;
+			Field startField = _fields[position.x, position.z];
+			Field currentField = startField;
 			currentField.RemainedActionPoint = actionPoints;
 			_closedFields.Add(currentField);
 
 			var reachableNeighbours = GetReachableNeighbours(currentField, actionPoints);
 			if (reachableNeighbours.Count > 0) {
 				for (int i = 0; i < reachableNeighbours.Count; i++) {
-					chckField = reachableNeighbours[i];
-					_openFields.Add(chckField);
-					chckField.Parent = currentField;
-					chckField.RemainedActionPoint = actionPoints - chckField.WayCost;
+					checkField = reachableNeighbours[i];
+					_openFields.Add(checkField);
+					checkField.Parent = currentField;
+					checkField.RemainedActionPoint = actionPoints - checkField.WayCost;
 				}
 			}
 			while (_openFields.Count > 0) {
@@ -46,17 +46,17 @@ namespace Game.Battlefield.util {
 
 				reachableNeighbours = GetReachableNeighbours(currentField, currentField.RemainedActionPoint);
 				for (int j = 0; j < reachableNeighbours.Count; j++) {
-					chckField = reachableNeighbours[j];
-					if (IsNewField(chckField)) {
-						_openFields.Add(chckField);
-						chckField.Parent = currentField;
-						chckField.RemainedActionPoint = currentField.RemainedActionPoint - chckField.WayCost;
+					checkField = reachableNeighbours[j];
+					if (IsNewField(checkField)) {
+						_openFields.Add(checkField);
+						checkField.Parent = currentField;
+						checkField.RemainedActionPoint = currentField.RemainedActionPoint - checkField.WayCost;
 					} else {
-						if (currentField.RemainedActionPoint - chckField.WayCost > chckField.RemainedActionPoint) {
-							chckField.RemainedActionPoint = currentField.RemainedActionPoint - chckField.WayCost;
-							chckField.Parent = currentField;
-							if (IsInClosedList(chckField)) {
-								int index = _closedFields.IndexOf(chckField);
+						if (currentField.RemainedActionPoint - checkField.WayCost > checkField.RemainedActionPoint) {
+							checkField.RemainedActionPoint = currentField.RemainedActionPoint - checkField.WayCost;
+							checkField.Parent = currentField;
+							if (IsInClosedList(checkField)) {
+								int index = _closedFields.IndexOf(checkField);
 								_openFields.Add(_closedFields[index]);
 								_closedFields.RemoveAt(index);
 							}
@@ -87,9 +87,9 @@ namespace Game.Battlefield.util {
 
 			for (int i = 0; i < neighboursPoints.Length; i++) {
 				if (ExitsField(neighboursPoints[i])) {
-					Field chckField = _fields[neighboursPoints[i].x, neighboursPoints[i].z];
-					if (chckField.IsFree && remainingActionPoints >= chckField.WayCost) {
-						neighboursFields.Add(chckField);
+					Field checkField = _fields[neighboursPoints[i].x, neighboursPoints[i].z];
+					if (checkField.IsFree && remainingActionPoints >= checkField.WayCost) {
+						neighboursFields.Add(checkField);
 					}
 				}
 			}

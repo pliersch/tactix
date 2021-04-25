@@ -8,10 +8,10 @@ namespace Game.Battlefield.util {
 
 		public static List<Unit> FindPossibleTargets(Unit attacker, IEnumerable<Unit> enemies) {
 			List<Unit> possibleTargets = new List<Unit>();
-			GameObject attackerCopy = createAttackerCopy(attacker);
+			GameObject attackerCopy = CreateAttackerCopy(attacker);
 			foreach (Unit enemy in enemies) {
 				attackerCopy.transform.LookAt(enemy.RealPosition);
-				float distance = ComputeDistance(attackerCopy, enemy.GetGameObject());
+				float distance = ComputeDistance(attackerCopy, enemy.GameObject);
 
 				if (distance > attacker.Reach) {
 					continue;
@@ -27,11 +27,11 @@ namespace Game.Battlefield.util {
 		}
 
 		private static float ComputeDistance(GameObject attacker, GameObject enemy) {
-			return Vector3.Distance(attacker.transform.position, enemy.transform.position);
+				return Vector3.Distance(attacker.transform.position, enemy.transform.position);
 		}
 
-		private static GameObject createAttackerCopy(Unit attacker) {
-			Vector3 attackerPosition = attacker.GetGameObject().transform.position;
+		private static GameObject CreateAttackerCopy(Unit attacker) {
+			Vector3 attackerPosition = attacker.GameObject.transform.position;
 			GameObject attackerCopy = new GameObject();
 			attackerCopy.transform.position = attackerPosition;
 			return attackerCopy;

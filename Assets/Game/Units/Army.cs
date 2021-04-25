@@ -1,6 +1,4 @@
-﻿using Game.Battlefield;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Game.Battlefield.Map;
 
 namespace Game.Units {
@@ -9,12 +7,12 @@ namespace Game.Units {
 
 		private readonly List<Unit> _units;
 		private Unit _activeUnit;
-		private readonly Map _battlefield;
 
-		public Army(Map battlefield, List<Unit> units) {
-			_battlefield = battlefield;
+		public Army(List<Unit> units) {
 			_units = units;
 		}
+		
+		public Map Map { get; set; }
 
 		public Unit GetActiveUnit() {
 			return _activeUnit;
@@ -39,7 +37,7 @@ namespace Game.Units {
 
 		public void HandleUnitSelected(Unit unit) {
 			_activeUnit = unit;
-			_battlefield.HandleUnitSelected(unit);
+			Map.HandleUnitSelected(unit);
 		}
 
 		internal void MoveActiveUnit(Field[] way) {
@@ -53,7 +51,7 @@ namespace Game.Units {
 		}
 
 		public void HandleUnitMovementComplete(Unit unit) {
-			_battlefield.HandleUnitMovementComplete(unit);
+			Map.HandleUnitMovementComplete(unit);
 		}
 
 		public void HighlightUnits(List<Unit> units) {
@@ -70,7 +68,7 @@ namespace Game.Units {
 
 		internal void HandleDeath(Unit unit) {
 			_units.Remove(unit);
-			_battlefield.HandleDeath(unit);
+			Map.HandleDeath(unit);
 		}
 
 
